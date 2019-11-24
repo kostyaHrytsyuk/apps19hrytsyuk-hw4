@@ -2,7 +2,7 @@ package ua.edu.ucu.utils;
 
 import java.util.Iterator;
 
-public class Queue implements Iterable<String> {
+public class Queue {
     private ImmutableLinkedList linkedList;
 
     public Queue() {
@@ -37,14 +37,23 @@ public class Queue implements Iterable<String> {
         }
     }
 
-    public Object[] toArray() {
-        return this.linkedList.toArray();
+    public Iterable<String> toArray(){
+        return getIterator(this);
     }
 
-    public Iterator<String> iterator() {
-        return new QueueIterator(this);
+    private Iterable<String> getIterator(Queue queue) {
+        return new Iterable<String>() {
+            @Override
+            public QueueIterator iterator() {
+                return new QueueIterator(queue);
+            }
+        };
     }
 
+//    public Iterator<String> iterator() {
+//        return new QueueIterator(this);
+//    }
+//
     private final class QueueIterator implements Iterator<String> {
 
         private final Queue queue;
@@ -60,8 +69,7 @@ public class Queue implements Iterable<String> {
 
         @Override
         public String next() {
-            String word = (String) this.queue.dequeue();
-            return word;
+            return (String) this.queue.dequeue();
         }
     }
 }

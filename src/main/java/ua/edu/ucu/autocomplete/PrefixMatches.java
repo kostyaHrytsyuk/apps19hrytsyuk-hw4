@@ -1,6 +1,8 @@
 package ua.edu.ucu.autocomplete;
 
+import ua.edu.ucu.tries.RWayTrie;
 import ua.edu.ucu.tries.Trie;
+import ua.edu.ucu.tries.Tuple;
 
 /**
  *
@@ -10,12 +12,30 @@ public class PrefixMatches {
 
     private Trie trie;
 
+    public PrefixMatches() {
+        this.trie = new RWayTrie();
+    }
+
     public PrefixMatches(Trie trie) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.trie = trie;
     }
 
     public int load(String... strings) {
-        throw new UnsupportedOperationException("Not supported yet.");        
+        int counter = 0;
+        for (String word:strings) {
+            if (word.length() >= 2) {
+                String[] splitted = word.trim().split("\\s+");
+                for (String s: splitted) {
+                    for (char c: s.toCharArray()) {
+
+                    }
+                    Tuple temp = new Tuple(s);
+                    this.trie.add(temp);
+                    counter++;
+                }
+            }
+        }
+        return counter;
     }
 
     public boolean contains(String word) {
@@ -27,7 +47,7 @@ public class PrefixMatches {
     }
 
     public Iterable<String> wordsWithPrefix(String pref) {
-        throw new UnsupportedOperationException("Not supported yet.");        
+        return trie.wordsWithPrefix(pref);
     }
 
     public Iterable<String> wordsWithPrefix(String pref, int k) {

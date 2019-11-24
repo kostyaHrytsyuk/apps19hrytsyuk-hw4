@@ -1,14 +1,17 @@
 package ua.edu.ucu.tries;
 
-import ua.edu.ucu.utils.Queue;
-
 public final class Tuple {
+    private static final int R = 256;
     public final String term;
     public final int weight;
-    public final Queue children = new Queue();
+    public final Tuple[] children = new Tuple[R];
 
-    public Tuple(String term, int weight) {
+    public Tuple(String term) {
         this.term = term;
-        this.weight = weight;
+        if (this.term != null) {
+            this.weight = term.length();
+        } else {
+            this.weight = 0;
+        }
     }  
 }
