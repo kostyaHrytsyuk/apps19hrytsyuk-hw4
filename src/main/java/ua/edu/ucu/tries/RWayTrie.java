@@ -3,9 +3,6 @@ package ua.edu.ucu.tries;
 import ua.edu.ucu.Checker;
 import ua.edu.ucu.utils.Queue;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-
 public class RWayTrie implements Trie {
 
     private Queue tree;
@@ -27,17 +24,19 @@ public class RWayTrie implements Trie {
 
     @Override
     public boolean contains(String word) {
-        if (word == null) {
-            throw new IllegalArgumentException("Argument is null!");
-        }
-
-        throw new UnsupportedOperationException("Not supported yet.");
+        Checker.checkNull(word);
+        return getWord(root, word, 0) != null;
     }
 
     @Override
     public boolean delete(String word) {
         Checker.checkNull(word);
-        throw new UnsupportedOperationException("Not supported yet.");
+        Tuple result = delete(this.root, word, 0);
+        if (result != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

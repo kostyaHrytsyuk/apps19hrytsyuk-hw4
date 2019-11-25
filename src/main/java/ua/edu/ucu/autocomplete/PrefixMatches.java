@@ -40,11 +40,11 @@ public class PrefixMatches {
     }
 
     public boolean contains(String word) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.trie.contains(word);
     }
 
     public boolean delete(String word) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.trie.delete(word);
     }
 
     public Iterable<String> wordsWithPrefix(String pref) {
