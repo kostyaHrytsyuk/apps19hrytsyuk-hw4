@@ -37,7 +37,7 @@ public class Queue {
         }
     }
 
-    public Iterable<String> toArray(){
+    public Iterable<String> toArray() {
         return getIterator(this);
     }
 
@@ -50,15 +50,11 @@ public class Queue {
         };
     }
 
-//    public Iterator<String> iterator() {
-//        return new QueueIterator(this);
-//    }
-//
-    private final class QueueIterator implements Iterator<String> {
+    private static final class QueueIterator implements Iterator<String> {
 
         private final Queue queue;
 
-        public QueueIterator(Queue queue) {
+        QueueIterator(Queue queue) {
             this.queue = queue;
         }
 

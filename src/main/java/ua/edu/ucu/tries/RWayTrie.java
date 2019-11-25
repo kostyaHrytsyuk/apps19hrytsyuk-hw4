@@ -11,7 +11,7 @@ public class RWayTrie implements Trie {
     public RWayTrie() {
         this.root = new Tuple("");
     }
-    
+
     @Override
     public void add(Tuple t) {
         Checker.checkNull(t);
@@ -28,11 +28,7 @@ public class RWayTrie implements Trie {
     public boolean delete(String word) {
         Checker.checkNull(word);
         Tuple result = delete(this.root, word, 0);
-        if (result != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return result != null;
     }
 
     @Override
@@ -73,7 +69,7 @@ public class RWayTrie implements Trie {
     }
 
     private void collect(Tuple t, StringBuilder sb, String pattern, Queue nodes) {
-        if(t == null) {
+        if (t == null) {
             return;
         }
         int len = sb.length();
@@ -116,8 +112,8 @@ public class RWayTrie implements Trie {
     }
 
     private Tuple add(Tuple t, String key, int value, int len) {
-        if(len == value) {
-            if(t.term == null) {
+        if (len == value) {
+            if (t.term == null) {
                 this.treeSize++;
             }
             t = new Tuple(key, value);
@@ -141,7 +137,7 @@ public class RWayTrie implements Trie {
                 this.treeSize--;
             }
             Tuple temp = new Tuple(null);
-            System.arraycopy(t.children,0, temp.children, 0, t.children.length);
+            System.arraycopy(t.children, 0, temp.children, 0, t.children.length);
             t = temp;
         } else {
             char c = key.charAt(len);
