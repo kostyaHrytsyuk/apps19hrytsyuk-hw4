@@ -7,6 +7,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import ua.edu.ucu.tries.RWayTrie;
 
+import java.util.Collections;
+
 /**
  *
  * @author Andrii_Rodionov
@@ -14,11 +16,12 @@ import ua.edu.ucu.tries.RWayTrie;
 public class PrefixMatchesITTest {
 
     private PrefixMatches pm;
+    private String[] words = {"abc", "abce", "abcd", "abcde", "abcdef"};
 
     @Before
     public void init() {
         pm = new PrefixMatches(new RWayTrie());
-        pm.load("abc", "abce", "abcd", "abcde", "abcdef");
+        pm.load(words);
     }
 
     @Test
@@ -56,6 +59,16 @@ public class PrefixMatchesITTest {
         pm.contains(null);
     }
 
+    @Test
+    public void testEmptyWordsWithPrefixK() {
+        assertEquals(Collections.emptyList(), this.pm.wordsWithPrefix("z", 5));
+    }
+
+    @Test
+    public void testSize() {
+        int expectedValue = this.words.length;
+        assertEquals(expectedValue , this.pm.size());
+    }
 
     @Test
     public void testWordsWithPrefix_String() {
