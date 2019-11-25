@@ -5,7 +5,6 @@ import ua.edu.ucu.tries.RWayTrie;
 import ua.edu.ucu.tries.Trie;
 import ua.edu.ucu.tries.Tuple;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 /**

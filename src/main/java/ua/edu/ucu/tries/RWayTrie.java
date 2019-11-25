@@ -5,12 +5,10 @@ import ua.edu.ucu.utils.Queue;
 
 public class RWayTrie implements Trie {
 
-    private Queue tree;
     private Tuple root;
     private int treeSize;
 
     public RWayTrie() {
-        this.tree = new Queue();
         this.root = new Tuple("");
     }
 
@@ -69,7 +67,7 @@ public class RWayTrie implements Trie {
         if (t.term != null) {
             nodes.enqueue(sb.toString());
         }
-        for (char i = 0; i < 256; i++) {
+        for (char i = 0; i < Tuple.R; i++) {
             sb.append(i);
             collect(t.children[i], sb, nodes);
             sb.deleteCharAt(sb.length()-1);
@@ -89,7 +87,7 @@ public class RWayTrie implements Trie {
         }
         char c = pattern.charAt(len);
         if (c == '.') {
-            for (char i = 0; i < 256; i++) {
+            for (char i = 0; i < Tuple.R; i++) {
                 iterateOverChildren(t.children[i], sb, pattern, nodes, i);
             }
         } else {
@@ -155,7 +153,7 @@ public class RWayTrie implements Trie {
         if (t.term != null) {
             return t;
         }
-        for (int i = 0; i < 256; i++) {
+        for (int i = 0; i < Tuple.R; i++) {
             if (t.children[i] != null) {
                 return t;
             }

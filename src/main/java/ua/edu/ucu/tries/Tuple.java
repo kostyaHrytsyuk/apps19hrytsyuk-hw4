@@ -1,7 +1,7 @@
 package ua.edu.ucu.tries;
 
 public final class Tuple {
-    private static final int R = 256;
+    public static final int R = 256;
     public final String term;
     public final int weight;
     public final Tuple[] children = new Tuple[R];
