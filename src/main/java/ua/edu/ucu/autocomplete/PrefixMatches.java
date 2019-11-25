@@ -4,6 +4,9 @@ import ua.edu.ucu.tries.RWayTrie;
 import ua.edu.ucu.tries.Trie;
 import ua.edu.ucu.tries.Tuple;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  *
  * @author andrii
@@ -26,10 +29,7 @@ public class PrefixMatches {
             if (word.length() >= 2) {
                 String[] splitted = word.trim().split("\\s+");
                 for (String s: splitted) {
-                    for (char c: s.toCharArray()) {
-
-                    }
-                    Tuple temp = new Tuple(s);
+                    Tuple temp = new Tuple(s, s.length());
                     this.trie.add(temp);
                     counter++;
                 }
@@ -47,14 +47,19 @@ public class PrefixMatches {
     }
 
     public Iterable<String> wordsWithPrefix(String pref) {
-        return trie.wordsWithPrefix(pref);
+        if (pref.length() >= 2) {
+            return trie.wordsWithPrefix(pref);
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     public Iterable<String> wordsWithPrefix(String pref, int k) {
+
         throw new UnsupportedOperationException("Not supported yet.");        
     }
 
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.trie.size();
     }
 }

@@ -8,10 +8,11 @@ public final class Tuple {
 
     public Tuple(String term) {
         this.term = term;
-        if (this.term != null) {
-            this.weight = term.length();
-        } else {
-            this.weight = 0;
-        }
-    }  
+        this.weight = 0;
+    }
+
+    public Tuple(String term, int weight) {
+        this.term = term;
+        this.weight = weight;
+    }
 }

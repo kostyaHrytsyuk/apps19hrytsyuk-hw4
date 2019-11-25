@@ -31,17 +31,20 @@ public class RWayTrie implements Trie {
         this.root = add(this.root, key, value, 0);
     }
 
-    private Tuple add(Tuple t, String key, Integer value, int len) {
+    private Tuple add(Tuple t, String key, int value, int len) {
         if(len == value) {
             if(t.term == null) {
                 this.treeSize++;
             }
-            t = new Tuple(key);
+            t = new Tuple(key, value);
             return t;
         }
         char c = key.charAt(len);
+//        if (t.children[c] == null) {
+//            t.children[c] = new Tuple(t.term + c);
+//        }
         if (t.children[c] == null) {
-            t.children[c] = new Tuple(t.term + c);
+            t.children[c] = new Tuple(null);
         }
         t.children[c] = add(t.children[c], key, value, len+1);
         return t;
@@ -71,7 +74,6 @@ public class RWayTrie implements Trie {
         Queue nodes = new Queue();
         Tuple t = getWord(this.root, pref, 0);
         collect(t, new StringBuilder(pref), nodes);
-        nodes.dequeue();
         return nodes.toArray();
     }
 
@@ -109,6 +111,7 @@ public class RWayTrie implements Trie {
             return node;
         }
         char c = key.charAt(position);
+
         return getWord(node.children[c], key, position+1);
     }
 
