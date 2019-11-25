@@ -1,5 +1,6 @@
 package ua.edu.ucu.autocomplete;
 
+import ua.edu.ucu.Checker;
 import ua.edu.ucu.tries.RWayTrie;
 import ua.edu.ucu.tries.Trie;
 import ua.edu.ucu.tries.Tuple;
@@ -47,6 +48,7 @@ public class PrefixMatches {
     }
 
     public Iterable<String> wordsWithPrefix(String pref) {
+        Checker.checkNull(pref);
         if (pref.length() >= 2) {
             return trie.wordsWithPrefix(pref);
         } else {
@@ -55,8 +57,17 @@ public class PrefixMatches {
     }
 
     public Iterable<String> wordsWithPrefix(String pref, int k) {
-
-        throw new UnsupportedOperationException("Not supported yet.");        
+        Checker.checkNull(pref);
+        if (pref.length() >= 2) {
+            StringBuilder prefBuilder = new StringBuilder(pref);
+            for (int i = 0; i < k-1; i++) {
+                prefBuilder.append(".");
+            }
+            pref = prefBuilder.toString();
+            return wordsWithPrefix(pref);
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     public int size() {

@@ -17,9 +17,7 @@ public class RWayTrie implements Trie {
         this.root = new Tuple("");
     }
 
-    public RWayTrie(Tuple root) {
-
-    }
+    public RWayTrie(Tuple root) { }
 
     @Override
     public void add(Tuple t) {
@@ -40,9 +38,6 @@ public class RWayTrie implements Trie {
             return t;
         }
         char c = key.charAt(len);
-//        if (t.children[c] == null) {
-//            t.children[c] = new Tuple(t.term + c);
-//        }
         if (t.children[c] == null) {
             t.children[c] = new Tuple(null);
         }
@@ -66,14 +61,25 @@ public class RWayTrie implements Trie {
 
     @Override
     public Iterable<String> words() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return wordsWithPrefix("");
     }
 
     @Override
     public Iterable<String> wordsWithPrefix(String pref) {
         Queue nodes = new Queue();
-        Tuple t = getWord(this.root, pref, 0);
-        collect(t, new StringBuilder(pref), nodes);
+        if (pref.indexOf('.') < 0) {
+            Tuple t = getWord(this.root, pref, 0);
+            collect(t, new StringBuilder(pref), nodes);
+        } else {
+            collect(this.root, new StringBuilder(), pref, nodes);
+        }
+
+        return nodes.toArray();
+    }
+
+    public Iterable<String> wordsWithPrefixByK(String pref) {
+        Queue nodes = new Queue();
+        collect(this.root, new StringBuilder(), pref, nodes);
         return nodes.toArray();
     }
 
@@ -89,6 +95,37 @@ public class RWayTrie implements Trie {
             collect(t.children[i], sb, nodes);
             sb.deleteCharAt(sb.length()-1);
         }
+    }
+
+    private void collect(Tuple t, StringBuilder sb, String pattern, Queue nodes) {
+        if(t == null) {
+            return;
+        }
+        int len = sb.length();
+        if (len <= pattern.length() && t.term != null && !t.term.isEmpty()) {
+            nodes.enqueue(sb.toString());
+        }
+        if (len == pattern.length()) {
+            return;
+        }
+        char c = pattern.charAt(len);
+        if (c == '.') {
+            for (char i = 0; i < 256; i++) {
+                sb.append(i);
+                collect(t.children[i], sb, pattern, nodes);
+                sb.deleteCharAt(sb.length() - 1);
+            }
+        } else {
+            sb.append(c);
+            collect(t.children[c], sb, pattern, nodes);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+
+    private void iterateOverChildren(Tuple child, StringBuilder sb, String pattern, Queue nodes, char i) {
+        sb.append(i);
+        collect(child, sb, pattern, nodes);
+        sb.deleteCharAt(sb.length() - 1);
     }
 
     @Override
