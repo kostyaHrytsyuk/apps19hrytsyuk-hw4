@@ -3,8 +3,8 @@ package ua.edu.ucu.tries;
 import ua.edu.ucu.Checker;
 import ua.edu.ucu.utils.Queue;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
-
 
 public class RWayTrie implements Trie {
 
@@ -25,26 +25,6 @@ public class RWayTrie implements Trie {
         add(t.term, t.weight);
     }
 
-    private void add(String key, Integer value) {
-        this.root = add(this.root, key, value, 0);
-    }
-
-    private Tuple add(Tuple t, String key, int value, int len) {
-        if(len == value) {
-            if(t.term == null) {
-                this.treeSize++;
-            }
-            t = new Tuple(key, value);
-            return t;
-        }
-        char c = key.charAt(len);
-        if (t.children[c] == null) {
-            t.children[c] = new Tuple(null);
-        }
-        t.children[c] = add(t.children[c], key, value, len+1);
-        return t;
-    }
-
     @Override
     public boolean contains(String word) {
         if (word == null) {
@@ -56,6 +36,7 @@ public class RWayTrie implements Trie {
 
     @Override
     public boolean delete(String word) {
+        Checker.checkNull(word);
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -77,10 +58,9 @@ public class RWayTrie implements Trie {
         return nodes.toArray();
     }
 
-    public Iterable<String> wordsWithPrefixByK(String pref) {
-        Queue nodes = new Queue();
-        collect(this.root, new StringBuilder(), pref, nodes);
-        return nodes.toArray();
+    @Override
+    public int size() {
+        return this.treeSize;
     }
 
     private void collect(Tuple t, StringBuilder sb, Queue nodes) {
@@ -111,14 +91,10 @@ public class RWayTrie implements Trie {
         char c = pattern.charAt(len);
         if (c == '.') {
             for (char i = 0; i < 256; i++) {
-                sb.append(i);
-                collect(t.children[i], sb, pattern, nodes);
-                sb.deleteCharAt(sb.length() - 1);
+                iterateOverChildren(t.children[i], sb, pattern, nodes, i);
             }
         } else {
-            sb.append(c);
-            collect(t.children[c], sb, pattern, nodes);
-            sb.deleteCharAt(sb.length() - 1);
+            iterateOverChildren(t.children[c], sb, pattern, nodes, c);
         }
     }
 
@@ -128,19 +104,7 @@ public class RWayTrie implements Trie {
         sb.deleteCharAt(sb.length() - 1);
     }
 
-    @Override
-    public int size() {
-        return this.tree.size();
-    }
-
-    public String getWord(String key) {
-        Checker.checkNull(key);
-        Tuple res = getWord((Tuple) this.tree.dequeue(), key, 0);
-        return res.term;
-    }
-
     private Tuple getWord(Tuple node, String key, int position) {
-//        Checker.checkNull(node);
         if (node == null) {
             return null;
         }
@@ -152,4 +116,51 @@ public class RWayTrie implements Trie {
         return getWord(node.children[c], key, position+1);
     }
 
+    private void add(String key, Integer value) {
+        this.root = add(this.root, key, value, 0);
+    }
+
+    private Tuple add(Tuple t, String key, int value, int len) {
+        if(len == value) {
+            if(t.term == null) {
+                this.treeSize++;
+            }
+            t = new Tuple(key, value);
+            return t;
+        }
+        char c = key.charAt(len);
+        if (t.children[c] == null) {
+            t.children[c] = new Tuple(null);
+        }
+        t.children[c] = add(t.children[c], key, value, len+1);
+        return t;
+    }
+
+
+    private Tuple delete(Tuple t, String key, int len) {
+        if (t == null) {
+            return null;
+        }
+        if (len == key.length()) {
+            if (t.term != null) {
+                this.treeSize--;
+            }
+            Tuple temp = new Tuple(null);
+            System.arraycopy(t.children,0, temp.children, 0, t.children.length);
+            t = temp;
+        } else {
+            char c = key.charAt(len);
+            t.children[c] = delete(t.children[c], key, len+1);
+        }
+
+        if (t.term != null) {
+            return t;
+        }
+        for (int i = 0; i < 256; i++) {
+            if (t.children[i] != null) {
+                return t;
+            }
+        }
+        return null;
+    }
 }
