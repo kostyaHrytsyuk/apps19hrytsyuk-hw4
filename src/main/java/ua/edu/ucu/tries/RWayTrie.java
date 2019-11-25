@@ -11,9 +11,7 @@ public class RWayTrie implements Trie {
     public RWayTrie() {
         this.root = new Tuple("");
     }
-
-    public RWayTrie(Tuple root) { }
-
+    
     @Override
     public void add(Tuple t) {
         Checker.checkNull(t);
@@ -64,7 +62,7 @@ public class RWayTrie implements Trie {
         if (t == null) {
             return;
         }
-        if (t.term != null) {
+        if (t.term != null && !t.term.isEmpty()) {
             nodes.enqueue(sb.toString());
         }
         for (char i = 0; i < Tuple.R; i++) {

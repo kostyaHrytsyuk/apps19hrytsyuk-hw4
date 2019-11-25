@@ -27,6 +27,7 @@ public class RWayTrieTest {
     }
 
     @Test
-    public void size() {
+    public void testSize() {
+        assertEquals(this.words.length, this.trie.size());
     }
 }

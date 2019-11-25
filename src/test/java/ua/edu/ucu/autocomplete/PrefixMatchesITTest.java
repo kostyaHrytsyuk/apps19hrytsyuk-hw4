@@ -56,6 +56,7 @@ public class PrefixMatchesITTest {
         pm.contains(null);
     }
 
+
     @Test
     public void testWordsWithPrefix_String() {
         String pref = "ab";
