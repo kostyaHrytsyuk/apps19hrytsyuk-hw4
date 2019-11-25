@@ -31,13 +31,29 @@ public class PrefixMatchesITTest {
     @Test
     public void testFalseDelete() {
         String del = "sgl#";
-        boolean res = pm.delete(del);
-        assertFalse(res);
+        assertFalse(pm.delete(del));
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullDelete() {
         pm.delete(null);
+    }
+
+    @Test
+    public void testTrueContains() {
+        String word = "abcd";
+        assertTrue(pm.contains(word));
+    }
+
+    @Test
+    public void testFalseContains() {
+        String word = "sgl#";
+        assertFalse(pm.contains(word));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullContains() {
+        pm.contains(null);
     }
 
     @Test
@@ -50,6 +66,8 @@ public class PrefixMatchesITTest {
 
         assertThat(result, containsInAnyOrder(expResult));
     }
+
+
 
     @Test
     public void testWordsWithPrefix_String_and_K() {
