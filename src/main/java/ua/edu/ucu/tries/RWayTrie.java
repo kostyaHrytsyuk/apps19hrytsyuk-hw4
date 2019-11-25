@@ -147,10 +147,16 @@ public class RWayTrie implements Trie {
             t = temp;
         } else {
             char c = key.charAt(len);
-            t.children[c] = delete(t.children[c], key, len+1);
+            Tuple del = delete(t.children[c], key, len+1);
+            if (del == null) {
+                return del;
+            } else {
+                t.children[c] = del;
+                return t;
+            }
         }
 
-        if (t.term != null) {
+        if (t.term != null && !t.term.isEmpty()) {
             return t;
         }
         for (int i = 0; i < Tuple.R; i++) {

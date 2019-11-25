@@ -22,6 +22,25 @@ public class PrefixMatchesITTest {
     }
 
     @Test
+    public void testTrueDelete() {
+        String del = "abcde";
+
+        assertTrue(pm.delete(del));
+    }
+
+    @Test
+    public void testFalseDelete() {
+        String del = "sgl#";
+        boolean res = pm.delete(del);
+        assertFalse(res);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testNullDelete() {
+        pm.delete(null);
+    }
+
+    @Test
     public void testWordsWithPrefix_String() {
         String pref = "ab";
 
